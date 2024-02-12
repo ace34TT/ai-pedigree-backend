@@ -34,3 +34,7 @@ export const extractTextFromPdf = async (filename: string) => {
   }
   return rawText;
 };
+export const deleteFile = async (filename: string) => {
+  console.log("deleting : " + path.resolve(tempDirectory, filename));
+  fs.unlinkSync(path.resolve(tempDirectory, filename));
+};

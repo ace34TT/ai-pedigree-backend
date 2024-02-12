@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import path from "path";
 import { text_model } from "./configs/gemini.config";
-import { extractTextFromPdf } from "./helpers/file.helpers";
+import { deleteFile, extractTextFromPdf } from "./helpers/file.helpers";
 import upload from "./middlewares/multer.middlewares";
 
 const tmpDirectory = path.resolve(__dirname, "tmp/");
@@ -53,9 +53,9 @@ app.post(
                     }
                   }
                 ]
-              }`
+        }`
       );
-
+      if (req.file) deleteFile(req.file?.filename);
       return res
         .status(200)
         .json(
@@ -65,7 +65,6 @@ app.post(
         );
     } catch (error) {
       console.trace(error);
-
       return res.status(500).send("error while processing file");
     }
   }
